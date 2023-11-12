@@ -21,10 +21,16 @@ namespace _Scripts.Managers {
                     GridManager.Instance.GenerateGrid();
                     break;
                 case GameState.SpawnSurvivials:
-                    UnitManager.Instance.SpawnSurvivials();
+                    ItemManager.Instance.SpawnSurvivials();
                     break;
                 case GameState.SpawnZombie:
-                    UnitManager.Instance.SpawnZombie();
+                    ItemManager.Instance.SpawnZombie();
+                    break;
+                case GameState.SpawnWeapon:
+                    ItemManager.Instance.SpawnWeapon();
+                    break;
+                case GameState.SpawnArmor:
+                    ItemManager.Instance.SpawnArmor();
                     break;
                 case GameState.SurvivialsTurn:
                     break;
@@ -34,14 +40,15 @@ namespace _Scripts.Managers {
                     throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
             }
         }
-    
     }
 
     public enum GameState {
         GenerateGrid = 0,
         SpawnSurvivials = 1,
         SpawnZombie = 2,
-        SurvivialsTurn = 3,
-        ZombieTurn = 4,
+        SpawnWeapon = 3,
+        SpawnArmor = 4,
+        SurvivialsTurn = 5,
+        ZombieTurn = 6,
     }
 }

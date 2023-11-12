@@ -52,5 +52,8 @@ namespace _Scripts.Managers {
         public ITile GetZombieSpawnTile() {
             return _tiles.Where(t => t.Key.x > _width / 2 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
         }
+        public ITile GetAnyTile() {
+            return _tiles.Where(t => t.Value.Walkable).OrderBy(t => Random.value).First().Value;
+        }
     }
 }

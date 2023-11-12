@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e9f7d513f8e9e343adbfb12d5dfc376, type: 3}
   m_Name: Survivial
   m_EditorClassIdentifier: 
+  UnitPrefab: {fileID: 7831834628463949644, guid: 48562b85e5d38384eaf80c829b080dcb, type: 3}
+  Faction: 0

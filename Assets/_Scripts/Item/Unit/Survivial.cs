@@ -1,4 +1,4 @@
-namespace _Scripts.Units {
+namespace _Scripts.Item.Unit {
     public class Survivial : IUnit {
 
     }

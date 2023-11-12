@@ -1,13 +1,14 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
-namespace _Scripts.Units {
+namespace _Scripts.Item.Unit {
     [CreateAssetMenu(fileName = "New unit", menuName = "Scriptable unit")]
     public class ScriptableUnit : ScriptableObject {
         public IUnit UnitPrefab;
-        public Faction Faction;
+        [FormerlySerializedAs("Faction")] public UnitFaction unitFaction;
     }
 
-    public enum Faction {
+    public enum UnitFaction {
         Survivials = 0,
         Zombie = 1
     }

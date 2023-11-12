@@ -9,6 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e9f7d513f8e9e343adbfb12d5dfc376, type: 3}
-  m_Name: Zombie
+  m_Script: {fileID: 11500000, guid: c54ca6957dfe19f418113253102fbcf8, type: 3}
+  m_Name: Weapon
   m_EditorClassIdentifier: 
+  equipPrefab: {fileID: 1745359357655463585, guid: 6ef02cdc7a0035c42bfd44dfe66f6b8c, type: 3}
+  equipFaction: 0
