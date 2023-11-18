@@ -11,17 +11,18 @@ public class MoveManager : MonoBehaviour {
     private void Awake() {
         Instance = this;
     }
-    
+
     public void UnitMove() {
         StartCoroutine(MoveUnitsWithDelay());
     }
-    
+
     IEnumerator MoveUnitsWithDelay() {
-        foreach (var unit in ItemManager.Instance.queueUnits) {
+        for (var i = 0; i < ItemManager.Instance.ListUnits.Count; i++) {
+            var unit = ItemManager.Instance.ListUnits[i];
             if (unit.GetType() == typeof(Survivial)) {
                 var survivial = (Survivial)unit;
                 survivial.Move();
-            }else if (unit.GetType() == typeof(Zombie)) {
+            } else if (unit.GetType() == typeof(Zombie)) {
                 var zombie = (Zombie)unit;
                 zombie.Move();
             }
@@ -32,5 +33,4 @@ public class MoveManager : MonoBehaviour {
 
         GameManager.Instance.ChangeState(GameState.Turns);
     }
-    
 }

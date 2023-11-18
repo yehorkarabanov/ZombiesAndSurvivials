@@ -101,3 +101,5 @@ MonoBehaviour:
   unitFaction: 0
   speed: 2
   rangeOfVision: 20
+  _hasWeapon: 0
+  _hasArmor: 0
