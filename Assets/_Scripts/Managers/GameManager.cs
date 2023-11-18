@@ -32,9 +32,8 @@ namespace _Scripts.Managers {
                 case GameState.SpawnArmor:
                     ItemManager.Instance.SpawnArmor();
                     break;
-                case GameState.SurvivialsTurn:
-                    break;
-                case GameState.ZombieTurn:
+                case GameState.Turns:
+                    MoveManager.Instance.UnitMove();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
@@ -48,7 +47,6 @@ namespace _Scripts.Managers {
         SpawnZombie = 2,
         SpawnWeapon = 3,
         SpawnArmor = 4,
-        SurvivialsTurn = 5,
-        ZombieTurn = 6,
+        Turns = 5,
     }
 }

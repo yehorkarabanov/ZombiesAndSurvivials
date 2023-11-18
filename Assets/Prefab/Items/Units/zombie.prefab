@@ -98,4 +98,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OccupiedTile: {fileID: 0}
-  Faction: 1
+  unitFaction: 1
+  speed: 1
+  rangeOfVision: 5

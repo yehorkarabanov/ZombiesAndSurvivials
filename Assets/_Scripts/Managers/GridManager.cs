@@ -10,7 +10,7 @@ namespace _Scripts.Managers {
         [SerializeField] private int _width, _height;
         [SerializeField] private ITile _grassTile, _waterTile, _mountainTile;
         [SerializeField] private Camera _cam;
-        private Dictionary<Vector2, ITile> _tiles;
+        public Dictionary<Vector2, ITile> _tiles;
 
         private void Awake() {
             Instance = this;
@@ -36,7 +36,7 @@ namespace _Scripts.Managers {
                     }
 
                     spawnedTile.name = $"tile {x} {y}";
-                    spawnedTile.Init();
+                    spawnedTile.Init(x, y);
                     _tiles[new Vector2(x, y)] = spawnedTile;
                 }
             }

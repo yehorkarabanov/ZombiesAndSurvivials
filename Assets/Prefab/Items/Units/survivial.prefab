@@ -97,3 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9c344dd987979a4bab134cd1fb2a440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OccupiedTile: {fileID: 0}
+  unitFaction: 0
+  speed: 2
+  rangeOfVision: 10

@@ -156,6 +156,7 @@ MonoBehaviour:
   _zombieCount: 100
   _armorCount: 10
   _weaponCount: 10
+  listEquip: []
 --- !u!4 &13743237
 Transform:
   m_ObjectHideFlags: 0
@@ -322,6 +323,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CamSpeed: 1
+--- !u!1 &1288001946
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1288001948}
+  - component: {fileID: 1288001947}
+  m_Layer: 0
+  m_Name: MoveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1288001947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288001946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c89d972fe1cdcb47b44d2c14939326b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1288001948
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288001946}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 38, y: 15, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1834707412
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,6 +494,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3709612796740963388, guid: 799c60f62a75fc148877df4cb859850c, type: 3}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3709612796740963388, guid: 799c60f62a75fc148877df4cb859850c, type: 3}
+      propertyPath: rangeOfVision
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3903631417865694681, guid: 799c60f62a75fc148877df4cb859850c, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5666
@@ -524,7 +577,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7064973226619541743, guid: 6ef02cdc7a0035c42bfd44dfe66f6b8c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 7064973226619541743, guid: 6ef02cdc7a0035c42bfd44dfe66f6b8c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -556,6 +609,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8990993840287239173, guid: 6ef02cdc7a0035c42bfd44dfe66f6b8c, type: 3}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8990993840287239173, guid: 6ef02cdc7a0035c42bfd44dfe66f6b8c, type: 3}
+      propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -627,6 +684,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: survivial
       objectReference: {fileID: 0}
+    - target: {fileID: 7831834628463949644, guid: 48562b85e5d38384eaf80c829b080dcb, type: 3}
+      propertyPath: speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7831834628463949644, guid: 48562b85e5d38384eaf80c829b080dcb, type: 3}
+      propertyPath: rangeOfVision
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -644,3 +709,4 @@ SceneRoots:
   - {fileID: 13743237}
   - {fileID: 6104971002929037078}
   - {fileID: 7775376575767077674}
+  - {fileID: 1288001948}
