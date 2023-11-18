@@ -11,6 +11,8 @@ namespace _Scripts.Tile {
             get { return G + H; }
         }
 
+        public ITile previous;
+
         [SerializeField] private Color _baseColor;
         [SerializeField] private SpriteRenderer _renderer;
         [SerializeField] private bool _isWalkable;

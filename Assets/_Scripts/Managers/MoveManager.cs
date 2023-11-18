@@ -26,7 +26,8 @@ public class MoveManager : MonoBehaviour {
                 zombie.Move();
             }
 
-            yield return new WaitForSeconds(0.1f);
+            // yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0f);
         }
 
         GameManager.Instance.ChangeState(GameState.Turns);

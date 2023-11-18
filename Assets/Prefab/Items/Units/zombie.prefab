@@ -100,4 +100,4 @@ MonoBehaviour:
   OccupiedTile: {fileID: 0}
   unitFaction: 1
   speed: 1
-  rangeOfVision: 5
+  rangeOfVision: 10

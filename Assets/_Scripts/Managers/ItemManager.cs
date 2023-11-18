@@ -18,7 +18,7 @@ namespace _Scripts.Managers {
         private List<ScriptableUnit> _units;
         private List<ScriptableEquip> _equips;
 
-        public Queue<IUnit> queueUnits = new Queue<IUnit>();
+        public List<IUnit> queueUnits = new List<IUnit>();
         public List<IEquip> listEquip = new List<IEquip>();
 
         public void Awake() {
@@ -35,7 +35,7 @@ namespace _Scripts.Managers {
                 sitem.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
                 var randomSpawnTile = GridManager.Instance.GetSurvivialSpawnTile();
                 randomSpawnTile.SetUnit(sitem);
-                queueUnits.Enqueue(sitem);
+                queueUnits.Add(sitem);
             }
 
             GameManager.Instance.ChangeState(GameState.SpawnZombie);
@@ -48,7 +48,7 @@ namespace _Scripts.Managers {
                 sitem.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
                 var randomSpawnTile = GridManager.Instance.GetZombieSpawnTile();
                 randomSpawnTile.SetUnit(sitem);
-                queueUnits.Enqueue(sitem);
+                queueUnits.Add(sitem);
             }
 
             GameManager.Instance.ChangeState(GameState.SpawnWeapon);
