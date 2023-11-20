@@ -13,15 +13,7 @@ namespace _Scripts.Item.Unit {
         public bool _hasArmor = false;
         public bool Attack = false;
 
-        protected override void CurrentMove() {
-            var Targets = _rangeFinder.GetTilesInRange(this.OccupiedTile, rangeOfVision).Where(x => {
-                    if (x.OccupiedUnit != null) {
-                        return true;
-                    }
-
-                    return false;
-                }
-            ).ToList();
+        protected override void findMove() {
             var PriorityTargets = _rangeFinder.GetTilesInRange(this.OccupiedTile, 3).Where(x => {
                     if (x.OccupiedUnit == null) {
                         return false;
@@ -29,6 +21,22 @@ namespace _Scripts.Item.Unit {
 
                     if ((x.OccupiedUnit.GetType() == typeof(Armor) && !this._hasArmor) ||
                         (x.OccupiedUnit.GetType() == typeof(Weapon) && !this._hasWeapon)) {
+                        return true;
+                    }
+
+                    return false;
+                }
+            ).ToList();
+            if (PriorityTargets.Any()) {
+                targetTile = PriorityTargets.OrderBy(x => Random.value).First();
+                target = "equip";
+                Path = _pathFinder.FindPath(this.OccupiedTile, targetTile);
+                return;
+            }
+
+
+            var Targets = _rangeFinder.GetTilesInRange(this.OccupiedTile, rangeOfVision).Where(x => {
+                    if (x.OccupiedUnit != null) {
                         return true;
                     }
 
@@ -60,51 +68,144 @@ namespace _Scripts.Item.Unit {
             } else {
                 this.Attack = false;
             }
-
-            if (PriorityTargets.Any()) {
-                targetTile = PriorityTargets.OrderBy(x => Random.value).First();
-                target = "equip";
-                Path = _pathFinder.FindPath(this.OccupiedTile, targetTile);
-            } else if (this.Attack) {
+            
+            if (this.Attack) {
                 if (zombies.Count != 0) {
                     targetTile = zombies.OrderBy(x => Random.value).First();
                     target = "zombie";
                     Path = _pathFinder.FindPath(this.OccupiedTile, targetTile);
+                    return;
                 } else {
                     try {
                         targetTile = survivials.Where(s => s.target == "zombie").OrderBy(x => Random.value).First()
                             .OccupiedTile;
                         target = "zombie_s";
                         Path = _pathFinder.FindPath(this.OccupiedTile, targetTile);
+                        return;
                     }
-                    catch (InvalidOperationException) {
-                        targetTile = possibleTargets.OrderBy(x => Random.value).First();
-                        target = "equip";
-                        Path = _pathFinder.FindPath(this.OccupiedTile, targetTile);
-                    }
+                    catch (InvalidOperationException) { }
                 }
-            } else if (possibleTargets.Any()) {
+            }
+            
+            if (possibleTargets.Any()) {
                 targetTile = possibleTargets.OrderBy(x => Random.value).First();
                 target = "equip";
                 Path = _pathFinder.FindPath(this.OccupiedTile, targetTile);
-            } else if (survivials.Count(s => s.target is "zombie" or "zombie_s")>0) {
-                targetTile = survivials.Where(s => s.target is "zombie" or "zombie_s").OrderBy(x => Random.value).First()
+                return;
+            }
+            
+            if (survivials.Count(s => s.target is "zombie" or "zombie_s") > 0) {
+                targetTile = survivials.Where(s => s.target is "zombie" or "zombie_s").OrderBy(x => Random.value)
+                    .First()
                     .OccupiedTile;
                 target = "zombie_s";
                 Path = _pathFinder.FindPath(this.OccupiedTile, targetTile);
-            } else {
-                if (!targetTile || targetTile == OccupiedTile) {
-                    targetTile = _rangeFinder.GetTilesInRange(this.OccupiedTile, rangeOfVision).Where(x => x.Walkable)
-                        .OrderBy(x => Random.value).First();
-                    target = "random";
-                }
-
-                if (!Path.Any()) {
-                    Path = _pathFinder.FindPath(this.OccupiedTile, targetTile, false);
-                }
+                return;
+            }
+            if (!targetTile || targetTile == OccupiedTile) {
+                targetTile = _rangeFinder.GetTilesInRange(this.OccupiedTile, rangeOfVision).Where(x => x.Walkable)
+                    .OrderBy(x => Random.value).First();
+                target = "random";
             }
 
+            if (!Path.Any()) {
+                Path = _pathFinder.FindPath(this.OccupiedTile, targetTile, false);
+            }
+        }
 
+        protected override void CurrentMove() {
+            // var Targets = _rangeFinder.GetTilesInRange(this.OccupiedTile, rangeOfVision).Where(x => {
+            //         if (x.OccupiedUnit != null) {
+            //             return true;
+            //         }
+            //
+            //         return false;
+            //     }
+            // ).ToList();
+            // var PriorityTargets = _rangeFinder.GetTilesInRange(this.OccupiedTile, 3).Where(x => {
+            //         if (x.OccupiedUnit == null) {
+            //             return false;
+            //         }
+            //
+            //         if ((x.OccupiedUnit.GetType() == typeof(Armor) && !this._hasArmor) ||
+            //             (x.OccupiedUnit.GetType() == typeof(Weapon) && !this._hasWeapon)) {
+            //             return true;
+            //         }
+            //
+            //         return false;
+            //     }
+            // ).ToList();
+            //
+            // List<ITile> zombies = new List<ITile>();
+            // List<Survivial> survivials = new List<Survivial>();
+            // List<ITile> possibleTargets = new List<ITile>();
+            // foreach (var item in Targets) {
+            //     if ((item.OccupiedUnit.GetType() == typeof(Armor) && !this._hasArmor) ||
+            //         (item.OccupiedUnit.GetType() == typeof(Weapon) && !this._hasWeapon)) {
+            //         possibleTargets.Add(item);
+            //         continue;
+            //     }
+            //
+            //     if (item.OccupiedUnit.GetType() == typeof(Zombie)) {
+            //         zombies.Add(item);
+            //     }
+            //
+            //     if (item.OccupiedUnit.GetType() == typeof(Survivial)) {
+            //         survivials.Add((Survivial)item.OccupiedUnit);
+            //     }
+            // }
+            //
+            // if (survivials.Count > zombies.Count + 10 && zombies.Count != 0) {
+            //     survivials.ForEach(x => x.Attack = true);
+            // } else {
+            //     this.Attack = false;
+            // }
+            //
+            // if (PriorityTargets.Any()) {
+            //     targetTile = PriorityTargets.OrderBy(x => Random.value).First();
+            //     target = "equip";
+            //     Path = _pathFinder.FindPath(this.OccupiedTile, targetTile);
+            // } else if (this.Attack) {
+            //     if (zombies.Count != 0) {
+            //         targetTile = zombies.OrderBy(x => Random.value).First();
+            //         target = "zombie";
+            //         Path = _pathFinder.FindPath(this.OccupiedTile, targetTile);
+            //     } else {
+            //         try {
+            //             targetTile = survivials.Where(s => s.target == "zombie").OrderBy(x => Random.value).First()
+            //                 .OccupiedTile;
+            //             target = "zombie_s";
+            //             Path = _pathFinder.FindPath(this.OccupiedTile, targetTile);
+            //         }
+            //         catch (InvalidOperationException) {
+            //             targetTile = possibleTargets.OrderBy(x => Random.value).First();
+            //             target = "equip";
+            //             Path = _pathFinder.FindPath(this.OccupiedTile, targetTile);
+            //         }
+            //     }
+            // } else if (possibleTargets.Any()) {
+            //     targetTile = possibleTargets.OrderBy(x => Random.value).First();
+            //     target = "equip";
+            //     Path = _pathFinder.FindPath(this.OccupiedTile, targetTile);
+            // } else if (survivials.Count(s => s.target is "zombie" or "zombie_s") > 0) {
+            //     targetTile = survivials.Where(s => s.target is "zombie" or "zombie_s").OrderBy(x => Random.value)
+            //         .First()
+            //         .OccupiedTile;
+            //     target = "zombie_s";
+            //     Path = _pathFinder.FindPath(this.OccupiedTile, targetTile);
+            // } else {
+            //     if (!targetTile || targetTile == OccupiedTile) {
+            //         targetTile = _rangeFinder.GetTilesInRange(this.OccupiedTile, rangeOfVision).Where(x => x.Walkable)
+            //             .OrderBy(x => Random.value).First();
+            //         target = "random";
+            //     }
+            //
+            //     if (!Path.Any()) {
+            //         Path = _pathFinder.FindPath(this.OccupiedTile, targetTile, false);
+            //     }
+            // }
+            //
+            //
             if (!Path.Any()) {
                 Path.Add(OccupiedTile);
             }

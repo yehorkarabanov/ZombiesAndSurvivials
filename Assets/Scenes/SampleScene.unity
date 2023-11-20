@@ -153,9 +153,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _survivialsCount: 100
-  _zombieCount: 100
+  _zombieCount: 200
   _armorCount: 10
   _weaponCount: 10
+  ListUnits: []
   listEquip: []
 --- !u!4 &13743237
 Transform:

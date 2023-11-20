@@ -18,14 +18,18 @@ namespace _Scripts.Item.Unit {
         protected ITile targetTile;
 
         public void Move() {
+            findMove();
             for (int i = 0; i < speed; i++) {
                 CurrentMove();
-                var opunit = checkBattle(this);
-                if (opunit != null) {
-                    battle(this, opunit);
-                }
+            }
+
+            var opunit = checkBattle(this);
+            if (opunit != null) {
+                battle(this, opunit);
             }
         }
+
+        protected abstract void findMove();
 
         protected abstract void CurrentMove();
 
@@ -41,14 +45,13 @@ namespace _Scripts.Item.Unit {
                 zombie = (Zombie)zombie_;
             }
 
-            if (Random.Range(0f, 100f) > 20f + (survivial._hasWeapon ? 20f : 0f)) {
+            if (Random.Range(0f, 100f) < 40f + (survivial._hasWeapon ? 30f : 0f)) {
                 //nothing
                 return;
             }
 
-            if (Random.Range(0f, 100f) > 30f + (survivial._hasWeapon ? 20f : 0f)) {
+            if (Random.Range(0f, 100f) < 65f + (survivial._hasWeapon ? 30f : 0f)) {
                 //battle start but sur win
-                // zombie.transform.position = new Vector3(0, 0, 1);
                 Destroy(zombie.gameObject);
                 zombie.OccupiedTile.OccupiedUnit = null;
                 ItemManager.Instance.ListUnits.Remove(zombie);
@@ -57,11 +60,10 @@ namespace _Scripts.Item.Unit {
 
             //battle start zombie win
             var survTile = survivial.OccupiedTile;
-            // survivial.transform.position = new Vector3(0, 0, 1);
             Destroy(survivial.gameObject);
             survivial.OccupiedTile.OccupiedUnit = null;
             ItemManager.Instance.ListUnits.Remove(survivial);
-            if (Random.Range(0f, 100f) < 20f + (survivial._hasArmor ? 30f : 0f)) {
+            if (Random.Range(0f, 100f) > 80f + (survivial._hasArmor ? 15f : 0f)) {
                 //new zombie added
                 ItemManager.Instance.SpawnOneZombie(survivial.OccupiedTile);
             }
@@ -71,7 +73,7 @@ namespace _Scripts.Item.Unit {
             }
 
             int range = 1;
-            if (Random.Range(0f, 100f) > 10f && survivial._hasArmor) {
+            if (Random.Range(0f, 100f) > 5f && survivial._hasArmor) {
                 //drop armor
                 ITile freeTile;
                 while (true) {
@@ -87,7 +89,7 @@ namespace _Scripts.Item.Unit {
                 ItemManager.Instance.SpawnOneArmor(freeTile);
             }
 
-            if (Random.Range(0f, 100f) > 10f && survivial._hasArmor) {
+            if (Random.Range(0f, 100f) > 5f && survivial._hasArmor) {
                 //drop weapon
                 ITile freeTile;
                 while (true) {
