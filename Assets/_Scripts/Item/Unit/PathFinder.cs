@@ -48,7 +48,7 @@ public class PathFinder {
             currentTile = currentTile.previous;
         }
 
-        if (exludeLast && finishedList.First()) {
+        if (exludeLast && finishedList.Any()) {
             finishedList.Remove(finishedList.First());
         }
 

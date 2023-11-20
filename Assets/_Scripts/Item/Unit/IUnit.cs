@@ -48,18 +48,18 @@ namespace _Scripts.Item.Unit {
 
             if (Random.Range(0f, 100f) > 30f + (survivial._hasWeapon ? 20f : 0f)) {
                 //battle start but sur win
+                // zombie.transform.position = new Vector3(0, 0, 1);
+                Destroy(zombie.gameObject);
                 zombie.OccupiedTile.OccupiedUnit = null;
-                zombie.transform.position = new Vector3(0, 0, 1);
-                Destroy(zombie);
                 ItemManager.Instance.ListUnits.Remove(zombie);
                 return;
             }
 
             //battle start zombie win
             var survTile = survivial.OccupiedTile;
+            // survivial.transform.position = new Vector3(0, 0, 1);
+            Destroy(survivial.gameObject);
             survivial.OccupiedTile.OccupiedUnit = null;
-            survivial.transform.position = new Vector3(0, 0, 1);
-            Destroy(survivial);
             ItemManager.Instance.ListUnits.Remove(survivial);
             if (Random.Range(0f, 100f) < 20f + (survivial._hasArmor ? 30f : 0f)) {
                 //new zombie added
@@ -69,8 +69,9 @@ namespace _Scripts.Item.Unit {
             if (!survivial._hasArmor && !survivial._hasWeapon) {
                 return;
             }
+
             int range = 1;
-            if (Random.Range(0f, 100f) > 30f && survivial._hasArmor) {
+            if (Random.Range(0f, 100f) > 10f && survivial._hasArmor) {
                 //drop armor
                 ITile freeTile;
                 while (true) {
@@ -82,9 +83,11 @@ namespace _Scripts.Item.Unit {
 
                     range++;
                 }
+
                 ItemManager.Instance.SpawnOneArmor(freeTile);
             }
-            if (Random.Range(0f, 100f) > 30f && survivial._hasArmor) {
+
+            if (Random.Range(0f, 100f) > 10f && survivial._hasArmor) {
                 //drop weapon
                 ITile freeTile;
                 while (true) {
@@ -96,6 +99,7 @@ namespace _Scripts.Item.Unit {
 
                     range++;
                 }
+
                 ItemManager.Instance.SpawnOneWeapon(freeTile);
             }
         }
