@@ -28,6 +28,13 @@ namespace _Scripts.Managers {
             }
 
             transform.position = CammeraPossition;
+
+            if (Input.GetKey(KeyCode.Q)) {
+                GameManager.Instance.ChangeState(GameState.GenerateGrid);
+            }
+            if (Input.GetKey(KeyCode.E)) {
+                GameManager.Instance.ChangeState(GameState.SpawnSurvivials);
+            }
         }
     }
 }

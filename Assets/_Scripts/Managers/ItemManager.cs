@@ -30,7 +30,25 @@ namespace _Scripts.Managers {
             _equips = Resources.LoadAll<ScriptableEquip>("Items/Equip").ToList();
         }
 
+        public void ClearItems() {
+            foreach (var unit in ListUnits) {
+                unit.OccupiedTile.OccupiedUnit = null;
+                Destroy(unit.gameObject);
+            }
+
+            ListUnits = new List<IUnit>();
+
+            foreach (var equip in listEquip) {
+                equip.OccupiedTile.OccupiedUnit = null;
+                Destroy(equip.gameObject);
+            }
+
+            listEquip = new List<IEquip>();
+        }
+
         public void SpawnSurvivials() {
+            ClearItems();
+
             for (int i = 0; i < _survivialsCount; i++) {
                 var item = GetRandomUnit<Survivial>(UnitFaction.Survivials);
                 var sitem = Instantiate(item);

@@ -10,21 +10,36 @@ namespace _Scripts.Managers {
         [SerializeField] private int _width, _height;
         [SerializeField] private ITile _grassTile, _waterTile, _mountainTile;
         [SerializeField] private Camera _cam;
-        public Dictionary<Vector2, ITile> _tiles;
+        public Dictionary<Vector2, ITile> _tiles = new Dictionary<Vector2, ITile>();
+        private float randomNoise = 0;
 
         private void Awake() {
             Instance = this;
         }
 
-        public void GenerateGrid() {
+        public void clearAllTiles() {
+            ItemManager.Instance.ClearItems();
+            if (this._tiles.Any()) {
+                for (int x = 0; x < _width; x++) {
+                    for (int y = 0; y < _height; y++) {
+                        Destroy(_tiles[new Vector2(x, y)]);
+                    }
+                }
+            }
+
             _tiles = new Dictionary<Vector2, ITile>();
+            randomNoise = Random.Range(0, 10000);
+        }
+
+        public void GenerateGrid() {
+            clearAllTiles();
             ITile spawnedTile;
             for (int x = 0; x < _width; x++) {
                 for (int y = 0; y < _height; y++) {
                     if (x == 0 || y == 0 || y == _height - 1 || x == _width - 1) {
                         spawnedTile = Instantiate(_mountainTile, new Vector3(x, y), Quaternion.identity);
                     } else {
-                        float noiseValue = Mathf.PerlinNoise(x * 0.2f, y * 0.2f);
+                        float noiseValue = Mathf.PerlinNoise((x + randomNoise) * 0.2f, (y + randomNoise) * 0.2f);
 
                         if (noiseValue < 0.2f) {
                             spawnedTile = Instantiate(_mountainTile, new Vector3(x, y), Quaternion.identity);
@@ -49,9 +64,11 @@ namespace _Scripts.Managers {
         public ITile GetSurvivialSpawnTile() {
             return _tiles.Where(t => t.Key.x < _width / 2 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
         }
+
         public ITile GetZombieSpawnTile() {
             return _tiles.Where(t => t.Key.x > _width / 2 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
         }
+
         public ITile GetAnyTile() {
             return _tiles.Where(t => t.Value.Walkable).OrderBy(t => Random.value).First().Value;
         }
