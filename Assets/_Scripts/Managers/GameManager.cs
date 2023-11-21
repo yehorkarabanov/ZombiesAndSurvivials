@@ -10,10 +10,6 @@ namespace _Scripts.Managers {
             Instance = this;
         }
 
-        void Start() {
-            ChangeState(GameState.GenerateGrid);
-        }
-
         public void ChangeState(GameState newState) {
             GameState = newState;
             switch (newState) {
