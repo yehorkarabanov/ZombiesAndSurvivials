@@ -32,6 +32,8 @@ namespace _Scripts.Tile {
             unit.transform.position = transform.position;
             OccupiedUnit = unit;
             unit.OccupiedTile = this;
+            var pos = unit.transform.position;
+            unit.transform.position = new Vector3(pos.x, pos.y, -1);
         }
     }
 }

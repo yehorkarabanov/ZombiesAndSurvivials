@@ -11,8 +11,10 @@ using Random = UnityEngine.Random;
 using ScriptableUnit = _Scripts.Item.Unit.ScriptableUnit;
 using Vector3 = UnityEngine.Vector3;
 
-namespace _Scripts.Managers {
-    public class ItemManager : MonoBehaviour {
+namespace _Scripts.Managers
+{
+    public class ItemManager : MonoBehaviour
+    {
         [SerializeField] private int _survivialsCount, _zombieCount, _armorCount, _weaponCount;
 
         public static ItemManager Instance;
@@ -23,22 +25,26 @@ namespace _Scripts.Managers {
         public List<IUnit> ListUnits = new List<IUnit>();
         public List<IEquip> listEquip = new List<IEquip>();
 
-        public void Awake() {
+        public void Awake()
+        {
             Instance = this;
 
             _units = Resources.LoadAll<ScriptableUnit>("Items/Units").ToList();
             _equips = Resources.LoadAll<ScriptableEquip>("Items/Equip").ToList();
         }
 
-        public void ClearItems() {
-            foreach (var unit in ListUnits) {
+        public void ClearItems()
+        {
+            foreach (var unit in ListUnits)
+            {
                 unit.OccupiedTile.OccupiedUnit = null;
                 Destroy(unit.gameObject);
             }
 
             ListUnits = new List<IUnit>();
 
-            foreach (var equip in listEquip) {
+            foreach (var equip in listEquip)
+            {
                 equip.OccupiedTile.OccupiedUnit = null;
                 Destroy(equip.gameObject);
             }
@@ -46,10 +52,12 @@ namespace _Scripts.Managers {
             listEquip = new List<IEquip>();
         }
 
-        public void SpawnSurvivials() {
+        public void SpawnSurvivials()
+        {
             ClearItems();
 
-            for (int i = 0; i < _survivialsCount; i++) {
+            for (int i = 0; i < _survivialsCount; i++)
+            {
                 var item = GetRandomUnit<Survivial>(UnitFaction.Survivials);
                 var sitem = Instantiate(item);
                 sitem.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
@@ -61,29 +69,38 @@ namespace _Scripts.Managers {
             GameManager.Instance.ChangeState(GameState.SpawnZombie);
         }
 
-        public void SpawnZombie() {
-            for (int i = 0; i < _zombieCount; i++) {
+        public void SpawnZombie()
+        {
+            for (int i = 0; i < _zombieCount; i++)
+            {
                 var item = GetRandomUnit<Zombie>(UnitFaction.Zombie);
                 var sitem = Instantiate(item);
                 sitem.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
                 var randomSpawnTile = GridManager.Instance.GetZombieSpawnTile();
                 randomSpawnTile.SetUnit(sitem);
+                var pos = sitem.transform.position;
+                sitem.transform.position = new Vector3(pos.x, pos.y, -1);
                 ListUnits.Add(sitem);
             }
 
             GameManager.Instance.ChangeState(GameState.SpawnWeapon);
         }
 
-        public void SpawnOneZombie(ITile tile) {
+        public void SpawnOneZombie(ITile tile)
+        {
             var item = GetRandomUnit<Zombie>(UnitFaction.Zombie);
             var sitem = Instantiate(item);
             sitem.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
             tile.SetUnit(sitem);
+            var pos = sitem.transform.position;
+            sitem.transform.position = new Vector3(pos.x, pos.y, -1);
             ListUnits.Add(sitem);
         }
 
-        public void SpawnWeapon() {
-            for (int i = 0; i < _weaponCount; i++) {
+        public void SpawnWeapon()
+        {
+            for (int i = 0; i < _weaponCount; i++)
+            {
                 var item = GetRandomEquip<Weapon>(EquipFaction.Weapon);
                 var sitem = Instantiate(item);
                 sitem.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
@@ -97,7 +114,8 @@ namespace _Scripts.Managers {
             GameManager.Instance.ChangeState(GameState.SpawnArmor);
         }
 
-        public void SpawnOneWeapon(ITile tile) {
+        public void SpawnOneWeapon(ITile tile)
+        {
             var item = GetRandomEquip<Weapon>(EquipFaction.Weapon);
             var sitem = Instantiate(item);
             sitem.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
@@ -107,8 +125,10 @@ namespace _Scripts.Managers {
             listEquip.Add(sitem);
         }
 
-        public void SpawnArmor() {
-            for (int i = 0; i < _armorCount; i++) {
+        public void SpawnArmor()
+        {
+            for (int i = 0; i < _armorCount; i++)
+            {
                 var item = GetRandomEquip<Armor>(EquipFaction.Armor);
                 var sitem = Instantiate(item);
                 sitem.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
@@ -120,7 +140,8 @@ namespace _Scripts.Managers {
             GameManager.Instance.ChangeState(GameState.Turns);
         }
 
-        public void SpawnOneArmor(ITile tile) {
+        public void SpawnOneArmor(ITile tile)
+        {
             var item = GetRandomEquip<Armor>(EquipFaction.Armor);
             var sitem = Instantiate(item);
             sitem.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
@@ -129,11 +150,13 @@ namespace _Scripts.Managers {
         }
 
 
-        private T GetRandomUnit<T>(UnitFaction unitFaction) where T : IUnit {
+        private T GetRandomUnit<T>(UnitFaction unitFaction) where T : IUnit
+        {
             return (T)_units.First(u => u.unitFaction == unitFaction).UnitPrefab;
         }
 
-        private T GetRandomEquip<T>(EquipFaction equipFaction) where T : IEquip {
+        private T GetRandomEquip<T>(EquipFaction equipFaction) where T : IEquip
+        {
             return (T)_equips.First(u => u.equipFaction == equipFaction).equipPrefab;
         }
     }
