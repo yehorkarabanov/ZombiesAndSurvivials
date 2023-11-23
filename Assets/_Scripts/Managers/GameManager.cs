@@ -18,6 +18,7 @@ namespace _Scripts.Managers {
                     break;
                 case GameState.SpawnSurvivials:
                     ItemManager.Instance.SpawnSurvivials();
+                    PostGameManager.Instance._canvas.SetActive(false);
                     break;
                 case GameState.SpawnZombie:
                     ItemManager.Instance.SpawnZombie();

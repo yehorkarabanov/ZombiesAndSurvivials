@@ -14,6 +14,12 @@ public class MoveManager : MonoBehaviour {
 
     public void UnitMove() {
         StartCoroutine(MoveUnitsWithDelay());
+
+        if (ItemManager.Instance._zombieFactCount == 0) {
+            PostGameManager.Instance.setWinText("Survivials");
+        } else if (ItemManager.Instance._survivialsCount == 0) {
+            PostGameManager.Instance.setWinText("Zombie");
+        }
     }
 
     IEnumerator MoveUnitsWithDelay() {

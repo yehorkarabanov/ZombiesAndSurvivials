@@ -15,7 +15,8 @@ namespace _Scripts.Managers
 {
     public class ItemManager : MonoBehaviour
     {
-        [SerializeField] private int _survivialsCount, _zombieCount, _armorCount, _weaponCount;
+        [SerializeField] public int _survivialsCount, _zombieCount, _armorCount, _weaponCount;
+        public int _survFactCount, _zombieFactCount;
 
         public static ItemManager Instance;
 
@@ -24,13 +25,16 @@ namespace _Scripts.Managers
 
         public List<IUnit> ListUnits = new List<IUnit>();
         public List<IEquip> listEquip = new List<IEquip>();
-
+        
         public void Awake()
         {
             Instance = this;
 
             _units = Resources.LoadAll<ScriptableUnit>("Items/Units").ToList();
             _equips = Resources.LoadAll<ScriptableEquip>("Items/Equip").ToList();
+
+            _survFactCount = _survivialsCount;
+            _zombieFactCount = _zombieCount;
         }
 
         public void ClearItems()

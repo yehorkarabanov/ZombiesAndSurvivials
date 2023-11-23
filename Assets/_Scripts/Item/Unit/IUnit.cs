@@ -50,8 +50,10 @@ namespace _Scripts.Item.Unit {
                 return;
             }
 
-            if (Random.Range(0f, 100f) < 65f + (survivial._hasWeapon ? 30f : 0f)) {
+            if (Random.Range(0f, 100f) < 70f + (survivial._hasWeapon ? 30f : 0f)) {
                 //battle start but sur win
+                ItemManager.Instance._zombieFactCount -= 1;
+                
                 Destroy(zombie.gameObject);
                 zombie.OccupiedTile.OccupiedUnit = null;
                 ItemManager.Instance.ListUnits.Remove(zombie);
@@ -59,12 +61,16 @@ namespace _Scripts.Item.Unit {
             }
 
             //battle start zombie win
+            ItemManager.Instance._survFactCount -= 1;
+            
             var survTile = survivial.OccupiedTile;
             Destroy(survivial.gameObject);
             survivial.OccupiedTile.OccupiedUnit = null;
             ItemManager.Instance.ListUnits.Remove(survivial);
-            if (Random.Range(0f, 100f) > 80f + (survivial._hasArmor ? 15f : 0f)) {
+            if (Random.Range(0f, 100f) > 55f + (survivial._hasArmor ? 15f : 0f)) {
                 //new zombie added
+                ItemManager.Instance._zombieFactCount += 1;
+                
                 ItemManager.Instance.SpawnOneZombie(survivial.OccupiedTile);
             }
 
