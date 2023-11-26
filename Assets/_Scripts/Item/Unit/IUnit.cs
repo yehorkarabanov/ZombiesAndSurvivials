@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using _Scripts.Item.Equip;
 using _Scripts.Managers;
 using _Scripts.Tile;
 using Unity.VisualScripting;
@@ -16,6 +17,15 @@ namespace _Scripts.Item.Unit {
         protected List<ITile> Path = new List<ITile>();
         protected string target;
         protected ITile targetTile;
+        
+        //events: remove zombie, remove surv, add zombie, add weap, add arm
+        public delegate void UnitDeletion(IUnit unit);
+
+        public delegate void EquipDeletion(IEquip equip);
+        public delegate void UnitCreation(ITile tile);
+
+        public event UnitDeletion OnZombieDeath, OnSurvivalDeath;
+        public event UnitCreation OnZombieCreate, OnArmorCreate, OnWeaponCreate, OnUnitMove; 
 
         public void Move() {
             findMove();
@@ -50,28 +60,28 @@ namespace _Scripts.Item.Unit {
                 return;
             }
 
-            if (Random.Range(0f, 100f) < 70f + (survivial._hasWeapon ? 30f : 0f)) {
+            if (Random.Range(0f, 100f) < 65f + (survivial._hasWeapon ? 30f : 0f)) {
                 //battle start but sur win
-                ItemManager.Instance._zombieFactCount -= 1;
-                
-                Destroy(zombie.gameObject);
-                zombie.OccupiedTile.OccupiedUnit = null;
-                ItemManager.Instance.ListUnits.Remove(zombie);
+                OnZombieDeath?.Invoke(zombie);
+                // ItemManager.Instance._zombieFactCount -= 1;
+                // Destroy(zombie.gameObject);
+                // zombie.OccupiedTile.OccupiedUnit = null;
+                // ItemManager.Instance.ListUnits.Remove(zombie);
                 return;
             }
 
             //battle start zombie win
-            ItemManager.Instance._survFactCount -= 1;
-            
             var survTile = survivial.OccupiedTile;
-            Destroy(survivial.gameObject);
-            survivial.OccupiedTile.OccupiedUnit = null;
-            ItemManager.Instance.ListUnits.Remove(survivial);
-            if (Random.Range(0f, 100f) > 55f + (survivial._hasArmor ? 15f : 0f)) {
+            OnSurvivalDeath?.Invoke(survivial);
+            // ItemManager.Instance._survFactCount -= 1;
+            // Destroy(survivial.gameObject);
+            // survivial.OccupiedTile.OccupiedUnit = null;
+            // ItemManager.Instance.ListUnits.Remove(survivial);
+            if (Random.Range(0f, 100f) > 35f + (survivial._hasArmor ? 15f : 0f)) {
                 //new zombie added
-                ItemManager.Instance._zombieFactCount += 1;
-                
-                ItemManager.Instance.SpawnOneZombie(survivial.OccupiedTile);
+                OnZombieCreate?.Invoke(survTile);
+                // ItemManager.Instance._zombieFactCount += 1;
+                // ItemManager.Instance.SpawnOneZombie(survivial.OccupiedTile);
             }
 
             if (!survivial._hasArmor && !survivial._hasWeapon) {
@@ -91,8 +101,8 @@ namespace _Scripts.Item.Unit {
 
                     range++;
                 }
-
-                ItemManager.Instance.SpawnOneArmor(freeTile);
+                OnArmorCreate?.Invoke(freeTile);
+                // ItemManager.Instance.SpawnOneArmor(freeTile);
             }
 
             if (Random.Range(0f, 100f) > 5f && survivial._hasArmor) {
@@ -107,8 +117,8 @@ namespace _Scripts.Item.Unit {
 
                     range++;
                 }
-
-                ItemManager.Instance.SpawnOneWeapon(freeTile);
+                OnWeaponCreate?.Invoke(freeTile);
+                //ItemManager.Instance.SpawnOneWeapon(freeTile);
             }
         }
 

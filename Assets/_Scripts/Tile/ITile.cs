@@ -13,8 +13,8 @@ namespace _Scripts.Tile {
 
         public ITile previous;
 
-        [SerializeField] private Color _baseColor;
-        [SerializeField] private SpriteRenderer _renderer;
+        [SerializeField] public Color _baseColor;
+        public SpriteRenderer _renderer;
         [SerializeField] private bool _isWalkable;
 
         public IItem OccupiedUnit;
@@ -22,9 +22,12 @@ namespace _Scripts.Tile {
         public bool Walkable => _isWalkable && OccupiedUnit == null;
 
         public void Init(float X, float Y) {
-            _renderer.color = _baseColor;
             x = X;
             y = Y;
+        }
+
+        public void Render() {
+            _renderer.color = _baseColor;
         }
 
         public void SetUnit(IItem unit) {

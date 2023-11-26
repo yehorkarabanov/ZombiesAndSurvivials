@@ -30,7 +30,13 @@ namespace _Scripts.Managers {
                     ItemManager.Instance.SpawnArmor();
                     break;
                 case GameState.Turns:
-                    MoveManager.Instance.UnitMove();
+                    if (ItemManager.Instance._zombieFactCount == 0) {
+                        PostGameManager.Instance.setWinText("Survivials");
+                    } else if (ItemManager.Instance._survivialsCount == 0) {
+                        PostGameManager.Instance.setWinText("Zombie");
+                    } else {
+                        MoveManager.Instance.UnitMove();
+                    }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(newState), newState, null);

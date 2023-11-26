@@ -13,6 +13,9 @@ namespace _Scripts.Item.Unit {
         public bool _hasArmor = false;
         public bool Attack = false;
 
+        
+        //events remove armorr, weapon
+        public event EquipDeletion OnEquioDelete;
         protected override void findMove() {
             var PriorityTargets = _rangeFinder.GetTilesInRange(this.OccupiedTile, 3).Where(x => {
                     if (x.OccupiedUnit == null) {
@@ -210,7 +213,8 @@ namespace _Scripts.Item.Unit {
                 Path.Add(OccupiedTile);
             }
 
-            GridManager.Instance._tiles[new Vector2(Path.First().x, Path.First().y)].SetUnit(this);
+            
+            // GridManager.Instance._tiles[new Vector2(Path.First().x, Path.First().y)].SetUnit(this);
             Path.Remove(Path.First());
 
             var equip = CheckPickUp();
@@ -242,16 +246,16 @@ namespace _Scripts.Item.Unit {
         private void PickUp(IEquip equip) {
             if (equip.GetType() == typeof(Weapon) && !this._hasWeapon) {
                 this._hasWeapon = true;
-
-                Destroy(equip.gameObject);
-                equip.OccupiedTile.OccupiedUnit = null;
-                ItemManager.Instance.listEquip.Remove(equip);
+                OnEquioDelete?.Invoke(equip);
+                // Destroy(equip.gameObject);
+                // equip.OccupiedTile.OccupiedUnit = null;
+                // ItemManager.Instance.listEquip.Remove(equip);
             } else if (!this._hasArmor) {
                 this._hasArmor = true;
-
-                Destroy(equip.gameObject);
-                equip.OccupiedTile.OccupiedUnit = null;
-                ItemManager.Instance.listEquip.Remove(equip);
+                OnEquioDelete?.Invoke(equip);
+                // Destroy(equip.gameObject);
+                // equip.OccupiedTile.OccupiedUnit = null;
+                // ItemManager.Instance.listEquip.Remove(equip);
             }
         }
     }

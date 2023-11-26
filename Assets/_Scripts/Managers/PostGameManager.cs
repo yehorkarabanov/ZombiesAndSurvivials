@@ -11,8 +11,11 @@ public class PostGameManager : MonoBehaviour {
     [FormerlySerializedAs("text")] public TMP_Text _text;
     public static PostGameManager Instance;
 
-    void Awake() {
+    void Start() {
         Instance = this;
+        _canvas = gameObject;
+        _text = GetComponent<TMP_Text>();
+        
         _canvas.SetActive(false);
     }
 
