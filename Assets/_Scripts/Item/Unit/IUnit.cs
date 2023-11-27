@@ -25,7 +25,7 @@ namespace _Scripts.Item.Unit {
         public delegate void UnitCreation(ITile tile);
 
         public event UnitDeletion OnZombieDeath, OnSurvivalDeath;
-        public event UnitCreation OnZombieCreate, OnArmorCreate, OnWeaponCreate, OnUnitMove; 
+        public event UnitCreation OnZombieCreate, OnArmorCreate, OnWeaponCreate; 
 
         public void Move() {
             findMove();

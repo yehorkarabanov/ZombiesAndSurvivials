@@ -5,6 +5,9 @@ namespace _Scripts.Managers {
         private Vector3 CammeraPossition;
         [SerializeField] private float CamSpeed;
 
+        public delegate void CamAction();
+        
+
         void Update() {
             CammeraPossition = transform.position;
         
@@ -30,10 +33,10 @@ namespace _Scripts.Managers {
             transform.position = CammeraPossition;
 
             if (Input.GetKey(KeyCode.Q)) {
-                GameManager.Instance.ChangeState(GameState.GenerateGrid);
+                GameManager.Instance.ChangeState(GameState.ClearItemsWithGrid);
             }
             if (Input.GetKey(KeyCode.E)) {
-                GameManager.Instance.ChangeState(GameState.SpawnSurvivials);
+                GameManager.Instance.ChangeState(GameState.ClearItems);
             }
         }
     }

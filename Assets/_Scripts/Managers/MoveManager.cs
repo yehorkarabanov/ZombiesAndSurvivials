@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using _Scripts.Item.Unit;
 using _Scripts.Managers;
 using UnityEngine;
@@ -11,12 +12,9 @@ public class MoveManager : MonoBehaviour {
     private void Awake() {
         Instance = this;
     }
+    
 
-    public void UnitMove() {
-        StartCoroutine(MoveUnitsWithDelay());
-    }
-
-    IEnumerator MoveUnitsWithDelay() {
+    public IEnumerator MoveUnits() {
         for (var i = 0; i < ItemManager.Instance.ListUnits.Count; i++) {
             var unit = ItemManager.Instance.ListUnits[i];
             if (unit.GetType() == typeof(Survivial)) {
@@ -27,10 +25,10 @@ public class MoveManager : MonoBehaviour {
                 zombie.Move();
             }
 
-            // yield return new WaitForSeconds(0.1f);
             yield return new WaitForSeconds(0f);
+            //yield return new WaitForSeconds(0f);
         }
 
-        GameManager.Instance.ChangeState(GameState.Turns);
+        //GameManager.Instance.ChangeState(GameState.Turns);
     }
 }

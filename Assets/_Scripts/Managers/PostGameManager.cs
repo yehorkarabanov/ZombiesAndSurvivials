@@ -13,14 +13,11 @@ public class PostGameManager : MonoBehaviour {
 
     void Start() {
         Instance = this;
-        _canvas = gameObject;
-        _text = GetComponent<TMP_Text>();
-        
         _canvas.SetActive(false);
     }
 
     public void setWinText(string text) {
         _canvas.SetActive(true);
-        _text.text = "Win - "+text;
+        _text.text = "Win - "+ text;
     }
 }

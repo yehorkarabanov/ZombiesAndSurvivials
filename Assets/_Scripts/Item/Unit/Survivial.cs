@@ -214,7 +214,7 @@ namespace _Scripts.Item.Unit {
             }
 
             
-            // GridManager.Instance._tiles[new Vector2(Path.First().x, Path.First().y)].SetUnit(this);
+            GridManager.Instance._tiles[new Vector2(Path.First().x, Path.First().y)].SetUnit(this);
             Path.Remove(Path.First());
 
             var equip = CheckPickUp();

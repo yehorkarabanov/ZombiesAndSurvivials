@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Threading.Tasks;
 using _Scripts.Item.Equip;
 using _Scripts.Item.Unit;
 using _Scripts.Tile;
@@ -52,6 +53,7 @@ namespace _Scripts.Managers {
 
             _survFactCount = _survivialsCount;
             _zombieFactCount = _zombieCount;
+
         }
 
         public void SpawnSurvivials() {
@@ -91,8 +93,8 @@ namespace _Scripts.Managers {
                     ItemManager.Instance.listEquip.Remove(equip);
                 };
             }
-
-            GameManager.Instance.ChangeState(GameState.SpawnZombie);
+            
+            //GameManager.Instance.ChangeState(GameState.SpawnZombie);
         }
 
         public void SpawnZombie() {
@@ -120,17 +122,16 @@ namespace _Scripts.Managers {
                 };
                 sitem.OnZombieCreate += tile => {
                     _zombieFactCount += 1;
-                    ItemManager.Instance.SpawnOneZombie(tile);
+                    SpawnOneZombie(tile);
                 };
                 sitem.OnArmorCreate += tile => {
-                    ItemManager.Instance.SpawnOneArmor(tile);
+                    SpawnOneArmor(tile);
                 };
                 sitem.OnWeaponCreate += tile => {
-                    ItemManager.Instance.SpawnOneWeapon(tile);
+                    SpawnOneWeapon(tile);
                 };
             }
-
-            GameManager.Instance.ChangeState(GameState.SpawnWeapon);
+            //GameManager.Instance.ChangeState(GameState.SpawnWeapon);
         }
 
         public void SpawnOneZombie(ITile tile) {
@@ -153,9 +154,8 @@ namespace _Scripts.Managers {
                 var pos = sitem.transform.position;
                 sitem.transform.position = new Vector3(pos.x, pos.y, -1);
                 listEquip.Add(sitem);
-            }
-
-            GameManager.Instance.ChangeState(GameState.SpawnArmor);
+            } ;
+            //GameManager.Instance.ChangeState(GameState.SpawnArmor);
         }
 
         public void SpawnOneWeapon(ITile tile) {
@@ -177,8 +177,7 @@ namespace _Scripts.Managers {
                 randomSpawnTile.SetUnit(sitem);
                 listEquip.Add(sitem);
             }
-
-            GameManager.Instance.ChangeState(GameState.Turns);
+            //GameManager.Instance.ChangeState(GameState.Turns);
         }
 
         public void SpawnOneArmor(ITile tile) {
